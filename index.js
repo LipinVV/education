@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const yargs = require('yargs/yargs')
-const { hideBin } = require('yargs/helpers')
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
 
 const argv = yargs(hideBin(process.argv))
     .option('current', {
@@ -49,7 +49,7 @@ if(arrayOfValues.includes('current')) {
     }
 
     if(argv.date) {
-        result = now.getDate()
+        result = now.getDate();
     }
 }
 
