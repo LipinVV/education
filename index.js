@@ -35,7 +35,6 @@ const otherKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0').l
 const { addDays, addMonths, subDays, subMonths, addYears, subYears } = require('date-fns');
 
 if(arrayOfValues.includes('current')) {
-    // изолировал общий вывод, так как он всеобъемлющий и информативный
     if(!otherKeys) {
         result = now.toISOString();
     }
