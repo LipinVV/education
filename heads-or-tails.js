@@ -2,9 +2,10 @@
 
 const fs = require('fs');
 const readline = require('readline');
-
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
+const analyzeLogs = require('./gameAnalyzer');
+
 const argv = yargs(hideBin(process.argv)).argv;
 
 const randomValueFromInterval = (min, max) => {
@@ -17,6 +18,11 @@ const rl = readline.createInterface({
 });
 
 const fileName = argv._[0];
+
+if (!fileName) {
+    console.log('Пожалуйста, укажите имя файла для логирования результатов.');
+    process.exit(1);
+}
 
 const logResult = (result) => {
     fs.appendFile(fileName, result + '\n', (err) => {
@@ -39,6 +45,14 @@ const init = () => {
             console.log(`Не угадали. Загаданное число: ${playingValue}`);
             logResult(`Не угадал: ${userGuess}, Загаданное число: ${playingValue}`);
         }
+
+        analyzeLogs(fileName, (err) => {
+            if (err) {
+                console.error(err.message);
+                process.exit(1);
+            }
+        });
+
         rl.close();
     });
 }
