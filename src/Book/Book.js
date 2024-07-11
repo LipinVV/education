@@ -16,7 +16,7 @@ const { v4: uuid } = require('uuid');
         favorite = '',
         fileCover = '',
         fileName = '',
-        id = '1',
+        id = uuid(),
     ) {
         this.id = id
         this.title = title
