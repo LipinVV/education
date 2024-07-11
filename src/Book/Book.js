@@ -5,7 +5,8 @@
 //     authors: string,
 //     favorite: string,
 //     fileCover: string,
-//     fileName: string
+//     fileName: string,
+//     fileBook: string,
 // }
 const { v4: uuid } = require('uuid');
  class Book {
@@ -16,6 +17,7 @@ const { v4: uuid } = require('uuid');
         favorite = '',
         fileCover = '',
         fileName = '',
+        fileBook = '',
         id = uuid(),
     ) {
         this.id = id
@@ -25,6 +27,7 @@ const { v4: uuid } = require('uuid');
         this.favorite = favorite
         this.fileCover = fileCover
         this.fileName = fileName
+        this.fileBook = fileBook
     }
 }
 

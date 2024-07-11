@@ -1,7 +1,12 @@
 const express = require('express');
-const { books } = require('../books-store');
-const { errorMessage, positiveMessage } = require('../constants');
-const Book = require("../src/Book/Book");
+const fs = require("fs");
+const fileMulter = require('../middleware/file-storage');
+const { books } = require('../../books-store');
+const { errorMessage, positiveMessage, uploadDirectory, uploadError, writeError, writeSuccess } = require('../../constants');
+const Book = require("../Book/Book");
+
+const allBooksRoute = '/api/books/';
+const singleBookRoute = '/api/books/:id';
 
 const bookIndexHandler = bookIndex => books.findIndex(book => book.id === bookIndex);
 
@@ -17,13 +22,13 @@ login.post('/api/user/login', (req, res) => {
 
 // Get books
 const getBooks = express.Router();
-getBooks.get('/api/books/', (req, res) => {
+getBooks.get(allBooksRoute, (req, res) => {
     res.json(books);
 });
 
 // Get a book
 const getBook = express.Router();
-getBook.get('/api/books/:id', (req, res) => {
+getBook.get(singleBookRoute, (req, res) => {
     const { id } = req.params;
     const bookIndex = bookIndexHandler(id);
 
@@ -37,19 +42,33 @@ getBook.get('/api/books/:id', (req, res) => {
 
 // Create a book
 const createBook = express.Router();
-createBook.post('/api/books/', (req, res) => {
-    const { title, description, authors, favorite, fileCover, fileName } = req.body;
+createBook.post(allBooksRoute, fileMulter.single('book'), (req, res) => {
+    // автоматически не создаёт директорию, приходится проверять и создавать самому
+    if (!fs.existsSync(uploadDirectory)) {
+        fs.mkdirSync(uploadDirectory);
+    }
 
-    const newBook = new Book(title, description, authors, favorite, fileCover, fileName);
-    books.push(newBook);
+    if(req.file){
+        const { path } = req.file;
+        const { title, description, authors, favorite, fileCover, fileName, fileBook } = req.body;
+        const newBook = new Book(title, description, authors, favorite, fileCover, fileName, fileBook);
+        books.push(newBook);
 
-    res.status(201);
-    res.json(newBook);
+        fs.writeFile(path, JSON.stringify(newBook), (err) => {
+            if (err) {
+                res.status(500).json({ error: writeError });
+            } else {
+                res.status(200).json({ message: `${writeSuccess}${path}` });
+            }
+        });
+    } else {
+        res.status(400).json({ error: uploadError });
+    }
 });
 
 // Update a book
 const updateBook = express.Router();
-updateBook.put('/api/books/:id', (req, res) => {
+updateBook.put(singleBookRoute, (req, res) => {
     const { title, description, authors, favorite, fileCover, fileName } = req.body;
     const { id } = req.params;
     const bookIndex = bookIndexHandler(id);
@@ -69,7 +88,7 @@ updateBook.put('/api/books/:id', (req, res) => {
 
 // Delete a book
 const deleteBook = express.Router();
-deleteBook.delete('/api/books/:id', (req, res) => {
+deleteBook.delete(singleBookRoute, (req, res) => {
     const { id } = req.params;
     const bookIndex = bookIndexHandler(id);
 
