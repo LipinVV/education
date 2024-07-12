@@ -7,4 +7,16 @@ const dictionary = {
     writeSuccess: 'Файл успешно загружен и данные записаны по пути: ',
 }
 
-module.exports = dictionary;
+const urlRoutes = {
+    loginRoute: '/api/user/login',
+     allBooksRoute: '/api/books',
+     singleBookRoute: '/api/books/:id',
+     downloadBookRoute: '/api/books/:id/download',
+}
+
+const constants = {
+    dictionary,
+    urlRoutes,
+}
+
+module.exports = constants;

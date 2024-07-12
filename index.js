@@ -14,5 +14,6 @@ APP.use(mainRoutingValue, indexRouter.booksRoutes.getBook);
 APP.use(mainRoutingValue, indexRouter.booksRoutes.updateBook);
 APP.use(mainRoutingValue, indexRouter.booksRoutes.createBook);
 APP.use(mainRoutingValue, indexRouter.booksRoutes.deleteBook);
+APP.use(mainRoutingValue, indexRouter.booksRoutes.downloadBook);
 
 APP.listen(PORT, HOST, () => console.log(`Server has started to work on: ${HOST}:${PORT}`));

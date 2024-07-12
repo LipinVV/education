@@ -1,30 +1,23 @@
 const express = require('express');
 const fs = require("fs");
+const path = require("path");
 const fileMulter = require('../middleware/file-storage');
 const { books } = require('../../books-store');
-const { errorMessage, positiveMessage, uploadDirectory, uploadError, writeError, writeSuccess } = require('../../constants');
+const { dictionary, urlRoutes } = require('../../constants');
+const { errorMessage, positiveMessage, uploadDirectory, uploadError, writeError, writeSuccess } = dictionary;
+const { allBooksRoute, downloadBookRoute, loginRoute, singleBookRoute } = urlRoutes;
 const Book = require("../Book/Book");
-
-const allBooksRoute = '/api/books/';
-const singleBookRoute = '/api/books/:id';
 
 const bookIndexHandler = bookIndex => books.findIndex(book => book.id === bookIndex);
 
-// скорее всего надо будет адаптировать get-запрос к получению файлов
-// const uploadsDir = path.join(__dirname, '../../uploads');
-// fs.readdir(uploadsDir, (err, files) => {
-//     if (err) {
-//         return console.error('Не удалось прочитать директорию:', err);
-//     }
-//
-//     files.forEach(file => {
-//         console.log(file);
-//     });
-// });
+const errorStatusHandler = response => {
+    response.status(404);
+    response.json(errorMessage);
+}
 
 // User zone
 const login = express.Router();
-login.post('/api/user/login', (req, res) => {
+login.post(loginRoute, (req, res) => {
     const userInfo = { id: 1, mail: "test@mail.ru" };
     res.json(userInfo);
     res.status(201);
@@ -47,8 +40,7 @@ getBook.get(singleBookRoute, (req, res) => {
     if(bookIndex !== -1) {
         res.json(books[bookIndex]);
     } else {
-        res.status(404);
-        res.json(errorMessage);
+        errorStatusHandler(res);
     }
 });
 
@@ -93,8 +85,7 @@ updateBook.put(singleBookRoute, (req, res) => {
 
         res.json(books[bookIndex]);
     } else {
-        res.status(404);
-        res.json(errorMessage);
+        errorStatusHandler(res);
     }
 });
 
@@ -108,9 +99,25 @@ deleteBook.delete(singleBookRoute, (req, res) => {
         books.splice(bookIndex, 1);
         res.json(positiveMessage);
     } else {
-        res.status(404);
-        res.json(errorMessage);
+        errorStatusHandler(res);
     }
+});
+
+// Download a book
+const downloadBook = express.Router();
+downloadBook.get(downloadBookRoute, (req, res) => {
+    const { id } =  req.params;
+    const filePath = path.join(__dirname, '../../uploads', `${id}.txt`);
+
+    res.download(filePath, (err) => {
+        if (err) {
+            if (err.code === 'ENOENT') {
+                return res.status(404).json({ message: errorMessage });
+            } else {
+                return res.status(500).json({ message: uploadError, error: err });
+            }
+        }
+    });
 });
 
 const routes = {
@@ -121,6 +128,7 @@ const routes = {
         createBook,
         updateBook,
         deleteBook,
+        downloadBook,
     },
 };
 
