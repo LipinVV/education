@@ -1,5 +1,6 @@
 const multer = require('multer');
 const fs = require("fs");
+const { v4: uuid } = require('uuid');
 
 const uploadDirectory = 'uploads';
 if (!fs.existsSync(uploadDirectory)) {
@@ -11,8 +12,8 @@ const storage = multer.diskStorage({
         cb(null, uploadDirectory);
     },
     filename(req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        cb(null, `${uuid()}-${file.originalname}`);
     }
 });
 
-module.exports = multer({ storage: storage });
+module.exports = multer({ storage });

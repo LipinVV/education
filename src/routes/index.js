@@ -10,6 +10,18 @@ const singleBookRoute = '/api/books/:id';
 
 const bookIndexHandler = bookIndex => books.findIndex(book => book.id === bookIndex);
 
+// скорее всего надо будет адаптировать get-запрос к получению файлов
+// const uploadsDir = path.join(__dirname, '../../uploads');
+// fs.readdir(uploadsDir, (err, files) => {
+//     if (err) {
+//         return console.error('Не удалось прочитать директорию:', err);
+//     }
+//
+//     files.forEach(file => {
+//         console.log(file);
+//     });
+// });
+
 // User zone
 const login = express.Router();
 login.post('/api/user/login', (req, res) => {
@@ -49,9 +61,9 @@ createBook.post(allBooksRoute, fileMulter.single('book'), (req, res) => {
     }
 
     if(req.file){
-        const { path } = req.file;
+        const { path, filename } = req.file;
         const { title, description, authors, favorite, fileCover, fileName, fileBook } = req.body;
-        const newBook = new Book(title, description, authors, favorite, fileCover, fileName, fileBook);
+        const newBook = new Book(filename, description, authors, favorite, fileCover, fileName, fileBook);
         books.push(newBook);
 
         fs.writeFile(path, JSON.stringify(newBook), (err) => {
@@ -77,7 +89,7 @@ updateBook.put(singleBookRoute, (req, res) => {
         books[bookIndex] = {
             ...books[bookIndex],
             title, description, authors, favorite, fileCover, fileName,
-        }
+        };
 
         res.json(books[bookIndex]);
     } else {
@@ -104,11 +116,11 @@ deleteBook.delete(singleBookRoute, (req, res) => {
 const routes = {
     loginRoutes: login,
     booksRoutes: {
-        getBooks: getBooks,
-        getBook: getBook,
-        createBook: createBook,
-        updateBook: updateBook,
-        deleteBook: deleteBook,
+        getBooks,
+        getBook,
+        createBook,
+        updateBook,
+        deleteBook,
     },
 };
 
