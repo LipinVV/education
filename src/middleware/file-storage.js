@@ -1,11 +1,7 @@
 const multer = require('multer');
-const fs = require("fs");
 const { v4: uuid } = require('uuid');
-
-const uploadDirectory = 'uploads';
-if (!fs.existsSync(uploadDirectory)) {
-    fs.mkdirSync(uploadDirectory);
-}
+const { dictionary } = require('../../constants');
+const { uploadDirectory } = dictionary;
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {

@@ -1,14 +1,14 @@
 const dictionary = {
     errorMessage: 'Книга не найдена',
     positiveMessage: 'ok',
-    uploadDirectory: 'uploads',
+    uploadDirectory: 'upload',
     uploadError: 'Файл не прикреплён или не найден',
     writeError: 'Ошибка при записи данных в файл:',
     writeSuccess: 'Файл успешно загружен и данные записаны по пути: ',
 }
 
 const urlRoutes = {
-    loginRoute: '/api/user/login',
+     loginRoute: '/api/user/login',
      allBooksRoute: '/api/books',
      singleBookRoute: '/api/books/:id',
      downloadBookRoute: '/api/books/:id/download',
