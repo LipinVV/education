@@ -6,10 +6,12 @@
         <h1><%= book.title %></h1>
         <p>Описание: <%= book.description %></p>
         <p>Автор: <%= book.authors %></p>
-        <% if (book.favourite) { %>
-            <p>В избранном: Да</p>
-        <% } else { %>
-            <p>В избранном: Нет</p>
+        <% if (book.favourite === true) { %>
+            <p>В избранном: да</p>
+        <% } %>
+
+        <% if (book.favourite === false) { %>
+            <p>В избранном: нет</p>
         <% } %>
 
         <% if (book.fileCover) { %>

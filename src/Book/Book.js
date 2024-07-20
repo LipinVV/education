@@ -3,7 +3,7 @@
 //     title: string,
 //     description: string,
 //     authors: string,
-//     favorite: string,
+//     favourite: string,
 //     fileCover: string,
 //     fileName: string,
 //     fileBook: string,
@@ -15,7 +15,7 @@ const { v4: uuid } = require('uuid');
         title = '',
         description = '',
         authors = '',
-        favorite = '',
+        favourite = '',
         fileCover = '',
         fileName = '',
         fileBook = '',
@@ -25,7 +25,7 @@ const { v4: uuid } = require('uuid');
         this.title = title
         this.description = description
         this.authors = authors
-        this.favorite = favorite
+        this.favourite = favourite
         this.fileCover = fileCover
         this.fileName = fileName
         this.fileBook = fileBook
