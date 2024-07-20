@@ -12,7 +12,7 @@ const BOOKS = '/books';
 
 // Получить все книги
 router.get(MAIN, (req, res) => {
-    res.render('books', { books: books, currentRoute: '/books', title: 'Все книги' });
+    res.render('books', { books: books, currentRoute: BOOKS, title: 'Все книги' });
 });
 
 router.get(CREATE, (req, res) => {
