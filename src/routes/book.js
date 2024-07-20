@@ -16,6 +16,10 @@ router.get(MAIN, (req, res) => {
     res.json(books);
 });
 
+if (!fs.existsSync(UPLOAD)) {
+    fs.mkdirSync(UPLOAD);
+}
+
 // Получить книгу по id
 router.get(ID, (req, res) => {
     const { id } = req.params;
@@ -62,10 +66,6 @@ router.put(ID, (req, res) => {
 
 // Загрузить книгу
 router.post(MAIN + UPLOAD, fileMulter.single(bookKey), (req, res) => {
-    if (!fs.existsSync(UPLOAD)) {
-        fs.mkdirSync(UPLOAD);
-    }
-
     if (req.file) {
         const { path, originalname, filename } = req.file;
         const { title, description, authors, favorite, fileCover } = req.body;
