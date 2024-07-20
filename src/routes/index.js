@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-// назначение пока не определено
 router.get('/', (req, res) => {
-    const { url } = req;
-    res.json({ url });
+    res.render('index', { currentRoute: '/' });
 })
 
 module.exports = router;

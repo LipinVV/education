@@ -9,8 +9,8 @@ const dictionary = {
 const urlRoutes = {
      indexRoute: '/',
      loginRoute: '/login',
-     allBooksRoute: '/api/books',
-     userRoute: '/api/user/',
+     allBooksRoute: '/books',
+     userRoute: '/user/',
 }
 
 const constants = {

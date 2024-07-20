@@ -1,0 +1,15 @@
+<%- include('./layouts/header') %>
+<%- include('./menu') %>
+
+<section class="books">
+    <h1>Список книг</h1>
+    <ul>
+        <% books.forEach(book => { %>
+            <li><a href="/books/<%= book.id %>"><%= book.title %></a></li>
+        <% }); %>
+    </ul>
+    <a class="create-book" href="/books/create">Добавить книгу</a>
+</section>
+
+<%- include('./layouts/footer') %>
+

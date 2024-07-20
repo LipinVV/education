@@ -1,0 +1,25 @@
+<%- include('./layouts/header') %>
+<%- include('./menu') %>
+
+<div class="book-wrapper">
+    <div class="book">
+        <h1><%= book.title %></h1>
+        <p>Описание: <%= book.description %></p>
+        <p>Автор: <%= book.authors %></p>
+        <% if (book.favourite) { %>
+            <p>В избранном: Да</p>
+        <% } else { %>
+            <p>В избранном: Нет</p>
+        <% } %>
+
+        <% if (book.fileCover) { %>
+            <p><%= book.fileCover %></p>
+        <% } %>
+
+        <a class="edit" href="/books/<%= book.id %>/edit">Редактировать</a>
+    </div>
+
+    <a class="return" href="javascript:history.back()">Вернуться</a>
+</div>
+
+<%- include('./layouts/footer') %>

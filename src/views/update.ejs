@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать книгу</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+<h1>Редактировать книгу</h1>
+<form action="/books/<%= book.id %>" method="POST" enctype="multipart/form-data">
+    <label for="title">Название:</label>
+    <input type="text" id="title" name="title" value="<%= book.title %>">
+    <!-- Остальные поля для редактирования информации о книге -->
+    <button type="submit">Сохранить</button>
+</form>
+</body>
+</html>
