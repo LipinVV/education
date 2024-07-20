@@ -2,8 +2,8 @@ const Book = require("./src/Book/Book");
 
 const store = {
     books: [
-        new Book(title='Первая книга'),
-        new Book(title='Вторая книга'),
+        new Book(title='Книга №1'),
+        new Book(title='Книга №2'),
     ],
 };
 

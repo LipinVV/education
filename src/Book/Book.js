@@ -9,6 +9,7 @@
 //     fileBook: string,
 // }
 const { v4: uuid } = require('uuid');
+
  class Book {
     constructor(
         title = '',

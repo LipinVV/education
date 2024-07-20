@@ -1,7 +1,6 @@
 const multer = require('multer');
 const { v4: uuid } = require('uuid');
-const { dictionary } = require('../../constants');
-const { uploadDirectory } = dictionary;
+const uploadDirectory = 'upload';
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
