@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const router = express.Router();
 const { errorMessage } = require('../../constants').dictionary;
 const { books } = require('../../books-store');
@@ -9,6 +10,7 @@ const ID = '/:id';
 const EDIT = '/edit';
 const CREATE = '/create';
 const BOOKS = '/books';
+const COUNTER_API = 'http://localhost:80/';
 
 // Получить все книги
 router.get(MAIN, (req, res) => {
@@ -35,14 +37,22 @@ router.post(CREATE, (req, res) => {
     res.redirect(BOOKS);
 });
 
-
 // Получить книгу по id
-router.get(ID, (req, res) => {
+router.get(ID, async (req, res) => {
     const { id } = req.params;
     const book = books.find(book => book.id === id);
 
     if (book) {
-        res.render('book', { book: book, currentRoute: '/book' });
+        try {
+            console.log('=> ', `${COUNTER_API}/${id}/incr`)
+            await axios.post(`${COUNTER_API}/${id}/incr`);
+            const counterResponse = await axios.get(`${COUNTER_API}/${id}`);
+            const viewCount = counterResponse.data.count;
+            res.render('book', { book: book, currentRoute: '/book', viewCount });
+        } catch (error) {
+            // console.error('Error incrementing view counter:', error);
+            res.render('book', { book: book, currentRoute: '/book', viewCount: 'N/A' });
+        }
     } else {
         res.status(404).json(errorMessage);
     }
@@ -76,6 +86,5 @@ router.post(ID + EDIT, (req, res) => {
         res.status(404).json(errorMessage);
     }
 });
-
 
 module.exports = router;
