@@ -2,8 +2,6 @@ const express = require('express');
 const APP = express();
 const BASIC_PORT = 3000;
 const PORT = process.env.PORT || BASIC_PORT;
-// при использовании Docker нужно убирать хост, имитируя 80 порт по умолчанию
-const HOST = '80'; // '127.0.0.1'// ;
 
 const indexRouter = require('./src/routes/index');
 const userRouter = require('./src/routes/user');
@@ -27,4 +25,4 @@ APP.use(indexRoute, indexRouter); // основной
 APP.use(allBooksRoute, bookRouter); // обобщение для работы с книгами
 APP.use(userRoute, userRouter); // обобщение для пользователя
 
-APP.listen(PORT, () => console.log(`Server has started to work on: ${HOST}:${PORT}`));
+APP.listen(PORT, () => console.log(`Server has started to work on: ${PORT}`));

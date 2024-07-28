@@ -1,6 +1,5 @@
 const express = require('express');
 const { incrementCounter, getCounter } = require('./counter');
-
 const APP = express();
 APP.use(express.json());
 

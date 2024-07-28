@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  main:
+    image: node:22.3.0
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - PORT=3002
+      - REDIS_URL=redis://storage
+    ports:
+      - "3002:3002"
+    entrypoint: ["npm", "start"]
+
+  counter:
+    image: node:22.3.0
+    working_dir: /app/counter-app/counter-app
+    volumes:
+      - ./:/app/counter-app
+    environment:
+      - PORT=3003
+      - REDIS_URL=redis://storage
+    ports:
+      - "3003:3003"
+    entrypoint: [ "npm", "start" ]

@@ -27,3 +27,9 @@ CMD ["npm", "start"]
 
 // docker build -t main .
 // docker run -it --rm --name main -e PORT=3003 -p 80:3003 main
+
+// hints
+// delete all: docker-compose down -v
+
+// собрать композицию
+docker-compose up --build

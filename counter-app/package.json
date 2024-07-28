@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -L counter.js"
+    "start": "nodemon -L index.js"
   },
   "dependencies": {
     "express": "^4.19.2",
