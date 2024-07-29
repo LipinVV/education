@@ -4,7 +4,7 @@ services:
   storage:
     image: redis
     volumes:
-      - ./:/app/database:/data
+      - ./data:/data
   main:
     image: node:22.3.0
     working_dir: /app
