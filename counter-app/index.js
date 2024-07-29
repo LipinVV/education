@@ -5,14 +5,12 @@ APP.use(express.json());
 
 APP.post('/counter/:bookId/incr', (req, res) => {
     const { bookId } = req.params;
-    const newCount = incrementCounter(bookId);
-    res.json({ count: newCount });
+    incrementCounter(bookId).then(response => res.json(response));
 });
 
 APP.get('/counter/:bookId', (req, res) => {
     const { bookId } = req.params;
-    const count = getCounter(bookId);
-    res.json({ count });
+    getCounter(bookId).then(response => res.json(response));
 });
 
 const PORT = process.env.PORT || 3003;

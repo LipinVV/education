@@ -43,13 +43,11 @@ router.get(ID, async (req, res) => {
     const book = books.find(book => book.id === id);
     if (book) {
         try {
-            await axios.post(`${COUNTER_API}/${id}/incr`);
-            const counterResponse = await axios.get(`${COUNTER_API}/${id}`);
-            const viewCount = counterResponse.data.count;
-            res.render('book', { book: book, currentRoute: '/book', viewCount });
+            const request  = await axios.post(`${COUNTER_API}/${id}/incr`);
+            const { data } = request;
+            res.render('book', { book: book, currentRoute: '/book', viewData: data });
         } catch (error) {
-            console.error('Error during incrementing view counter:', error);
-            res.render('book', { book: book, currentRoute: '/book', viewCount: 'N/A' });
+            res.render('book', { book: book, currentRoute: '/book', viewData: 'N/A' });
         }
     } else {
         res.status(404).json(errorMessage);

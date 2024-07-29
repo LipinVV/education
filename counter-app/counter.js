@@ -1,33 +1,25 @@
-const fs = require('fs');
-const path = require('path');
+const redis = require('redis');
 
-const dataFile = path.join(__dirname, 'counter-data.json');
+const client = redis.createClient({
+    url: process.env.REDIS_URL || 'redis://storage'
+});
 
-const getCounters = () => {
-    if (!fs.existsSync(dataFile)) {
-        return {};
-    }
-    const data = fs.readFileSync(dataFile);
-    return JSON.parse(data);
+client.on('error', (err) => {
+    console.error('Redis error:', err);
+});
+
+(async () => {
+    await client.connect();
+})();
+
+const incrementCounter = async (bookId) => {
+    const inc = await client.incr(bookId);
+    return { bookId: bookId, inc: inc };
 };
 
-const saveCounters = (counters) => {
-    fs.writeFileSync(dataFile, JSON.stringify(counters));
-};
-
-const incrementCounter = (bookId) => {
-    const counters = getCounters();
-    if (!counters[bookId]) {
-        counters[bookId] = 0;
-    }
-    counters[bookId]++;
-    saveCounters(counters);
-    return counters[bookId];
-};
-
-const getCounter = (bookId) => {
-    const counters = getCounters();
-    return counters[bookId] || 0;
+const getCounter = async (bookId) => {
+    const counter = await client.get(bookId);
+    return { bookId: bookId, counter: counter };
 };
 
 module.exports = {
