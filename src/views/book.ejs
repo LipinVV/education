@@ -18,6 +18,14 @@
             <p><%= book.fileCover %></p>
         <% } %>
 
+        <% if (viewData.inc && viewData.inc > 0) { %>
+            <p>Количество просмотров: <%= viewData.inc %></p>
+        <% } %>
+
+        <% if (!viewData.inc || viewData.inc === 0) { %>
+            <p>Количество просмотров: 0</p>
+        <% } %>
+
         <a class="edit" href="/books/<%= book.id %>/edit">Редактировать</a>
     </div>
 
