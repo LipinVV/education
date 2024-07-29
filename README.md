@@ -1,35 +1,79 @@
-без Dockerfile:
-// в проекте на забыть: nodemon -L - обязательно в package.json выставляем такой ключ
+# Проект с использованием Docker и Docker Compose
 
-// создаём образ
-docker pull node:22.3.0
+## Описание
 
-// в powershell
-docker run -it --rm --name main -v C:\Users\vitli\Desktop\NT\cli:/app -w /app node:22.3.0 /bin/bash
-docker run -it --rm --name main -e PORT=3003 -p 80:3003 -v /c/Users/vitli/Desktop/NT/cli:/app -w /app node:22.3.0 /bin/bash
+Этот проект демонстрирует, как использовать Docker и Docker Compose для управления Node.js приложением.
 
-с Dockerfile:
+## Установка и запуск
 
-***
-сам Dockerfile:
-FROM node:22.3.0
+### Без Dockerfile
 
-WORKDIR /app
+1. Не забываем добавить ключ `nodemon -L` в `package.json`, чтобы `nodemon` корректно работал в Docker контейнере.
 
-ARG NODE_ENV=production
+    ```json
+    "scripts": {
+        "start": "nodemon -L"
+    }
+    ```
 
-COPY ./*json ./
-RUN npm install
-COPY . .
+2. Скачиваем образ Node:
 
-CMD ["npm", "start"]
-***
+    ```sh
+    docker pull node:22.3.0
+    ```
 
-// docker build -t main .
-// docker run -it --rm --name main -e PORT=3003 -p 80:3003 main
+3. Запустите контейнер:
 
-// hints
-// delete all: docker-compose down -v
+    ```sh
+    docker run -it --rm --name main -v C:\Users\vitli\Desktop\NT\cli:/app -w /app node:22.3.0 /bin/bash
+    ```
 
-// собрать композицию
-docker-compose up --build
+   или
+
+    ```sh
+    docker run -it --rm --name main -e PORT=3003 -p 80:3003 -v /c/Users/vitli/Desktop/NT/cli:/app -w /app node:22.3.0 /bin/bash
+    ```
+
+### С Dockerfile
+
+1. Создаём Dockerfile:
+
+    ```Dockerfile
+    FROM node:22.3.0
+
+    WORKDIR /app
+
+    ARG NODE_ENV=production
+
+    COPY ./*json ./
+    RUN npm install
+    COPY . .
+
+    CMD ["npm", "start"]
+    ```
+
+2. Рисуем Docker образ:
+
+    ```sh
+    docker build -t main .
+    ```
+
+3. Запускаем контейнер:
+
+    ```sh
+    docker run -it --rm --name main -e PORT=3003 -p 80:3003 main
+    ```
+
+## Композиция
+
+1. Сборка и запуск композиции:
+
+    ```sh
+    docker-compose up --build
+    ```
+
+2. Удаление всех контейнеров и томов:
+
+    ```sh
+    docker-compose down -v
+    ```
