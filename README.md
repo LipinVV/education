@@ -82,3 +82,12 @@
    ```sh
       docker build -t main .
   ```
+
+## Присвоение тэга образу для публикации
+   ```sh
+   docker tag c8aa25646e1b ultranoobcodebot/library:library
+  ```
+## Отправка образа для публикации
+   ```sh
+   docker push  ultranoobcodebot/library:library
+  ```
