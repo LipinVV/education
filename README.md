@@ -22,7 +22,7 @@
     docker pull node:22.3.0
     ```
 
-3. Запустите контейнер:
+3. Запускаем контейнер:
 
     ```sh
     docker run -it --rm --name main -v C:\Users\vitli\Desktop\NT\cli:/app -w /app node:22.3.0 /bin/bash
@@ -77,3 +77,8 @@
     ```sh
     docker-compose down -v
     ```
+
+## Сборка всех контейнеров
+   ```sh
+      docker build -t main .
+  ```
