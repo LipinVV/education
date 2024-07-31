@@ -1,6 +1,13 @@
 version: '3.9'
 
 services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+
   storage:
     image: redis
     volumes:
@@ -12,11 +19,13 @@ services:
       - ./:/app
     environment:
       - PORT=3002
-      - REDIS_URL=redis://storage
+      - COUNTER_API=http://counter:3003/counter
+      - MONGO_URL=mongodb://mongo:27017/book-store
     ports:
       - "3002:3002"
     depends_on:
-      - storage
+      - counter
+      - mongo
     entrypoint: ["npm", "start"]
 
   counter:

@@ -1,5 +1,6 @@
 const express = require('express');
 const APP = express();
+const mongoConnector = require('./src/service/mongo');
 const BASIC_PORT = 3000;
 const PORT = process.env.PORT || BASIC_PORT;
 
@@ -25,4 +26,8 @@ APP.use(indexRoute, indexRouter); // основной
 APP.use(allBooksRoute, bookRouter); // обобщение для работы с книгами
 APP.use(userRoute, userRouter); // обобщение для пользователя
 
-APP.listen(PORT, () => console.log(`Server has started to work on: ${PORT}`));
+mongoConnector();
+
+APP.listen(PORT, () => {
+    console.log(`Server has started to work on: ${PORT}`)
+});

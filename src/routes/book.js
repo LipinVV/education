@@ -10,7 +10,7 @@ const ID = '/:id';
 const EDIT = '/edit';
 const CREATE = '/create';
 const BOOKS = '/books';
-const COUNTER_API = 'http://counter:3003/counter';
+const COUNTER_API = process.env.COUNTER_API || 'http://counter:3003/counter';
 
 // Get all books
 router.get(MAIN, (req, res) => {
