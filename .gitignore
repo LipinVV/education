@@ -1,3 +1,6 @@
 .idea
 /node_modules
 /upload
+/counter-app/node_modules
+mongo-data
+data
