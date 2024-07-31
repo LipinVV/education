@@ -4,6 +4,10 @@
 <section class="books">
     <h1>Список книг</h1>
     <ul>
+        <% if (!books.length) { %>
+            <p>У Вас нет ни одной книги</p>
+        <% } %>
+
         <% books.forEach(book => { %>
             <li><a href="/books/<%= book.id %>"><%= book.title %></a></li>
         <% }); %>

@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= title %></title>
+    <title>
+        <% if (currentRoute === '/') { %> Главная страница <% } %>
+        <% if (currentRoute !== '/') { %>
+                <%= title %>
+        <% } %>
+    </title>
     <link rel="stylesheet" href="/../styles/styles.css">
 </head>
 
