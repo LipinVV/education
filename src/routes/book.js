@@ -9,6 +9,7 @@ const ID = '/:id';
 const EDIT = '/edit';
 const CREATE = '/create';
 const BOOKS = '/books';
+const DELETE = '/delete';
 const COUNTER_API = process.env.COUNTER_API || 'http://counter:3003/counter';
 
 // Get all books
@@ -103,6 +104,22 @@ router.post(ID + EDIT, async (req, res) => {
 
         if (book) {
             res.redirect(`${BOOKS}/${id}`);
+        } else {
+            res.status(404).json(errorMessage);
+        }
+    } catch (error) {
+        res.status(500).json(errorMessage);
+    }
+});
+
+// Delete a book by id
+router.get(ID + DELETE, async (req, res) => {
+    const { id } = req.params;
+    try {
+        const book = await Book.findOneAndDelete({ id });
+        if (book) {
+            res.redirect(BOOKS);
+            res.json('ok');
         } else {
             res.status(404).json(errorMessage);
         }
