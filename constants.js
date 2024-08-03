@@ -10,7 +10,7 @@ const urlRoutes = {
      indexRoute: '/',
      loginRoute: '/login',
      allBooksRoute: '/books',
-     userRoute: '/user/',
+     userRoute: '/user',
 }
 
 const constants = {
