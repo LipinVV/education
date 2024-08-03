@@ -15,7 +15,7 @@ const COUNTER_API = process.env.COUNTER_API || 'http://counter:3003/counter';
 router.get(MAIN, async (req, res) => {
     try {
         const books = await Book.find();
-        res.render('books', { books: books, currentRoute: BOOKS, title: 'All Books' });
+        res.render('books', { books: books, currentRoute: BOOKS, title: 'All Books', user: req.user });
     } catch (error) {
         res.status(500).json(errorMessage);
     }
@@ -29,7 +29,7 @@ router.get(CREATE, (req, res) => {
         authors: '',
         favourite: false,
     };
-    res.render('create', { currentRoute: CREATE, book: book, title: 'New book' });
+    res.render('create', { currentRoute: CREATE, book: book, title: 'New book', user: req.user });
 });
 
 // Create a new book
@@ -60,9 +60,9 @@ router.get(ID, async (req, res) => {
             try {
                 const request = await axios.post(`${COUNTER_API}/${id}/incr`);
                 const { data } = request;
-                res.render('book', { book: book, currentRoute: '/book', viewData: data, title: book.title });
+                res.render('book', { book: book, currentRoute: '/book', viewData: data, title: book.title, user: req.user });
             } catch (error) {
-                res.render('book', { book: book, currentRoute: '/book', viewData: 'N/A', title: 'Not found' });
+                res.render('book', { book: book, currentRoute: '/book', viewData: 'N/A', title: 'Not found', user: req.user });
             }
         } else {
             res.status(404).json(errorMessage);
@@ -78,7 +78,7 @@ router.get(ID + EDIT, async (req, res) => {
     try {
         const book = await Book.findOne({ id });
         if (book) {
-            res.render('update', { book: book, currentRoute: EDIT, title: book.title });
+            res.render('update', { book: book, currentRoute: EDIT, title: book.title, user: req.user });
         } else {
             res.status(404).json(errorMessage);
         }
