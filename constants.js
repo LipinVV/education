@@ -9,6 +9,7 @@ const dictionary = {
 const urlRoutes = {
      indexRoute: '/',
      loginRoute: '/login',
+     loginErrorRoute: '/loginErrorRoute',
      allBooksRoute: '/books',
      userRoute: '/user',
      signupRoute: '/signup',

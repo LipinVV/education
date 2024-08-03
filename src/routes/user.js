@@ -3,15 +3,19 @@ const router = express.Router();
 const passport = require('passport');
 const userDatabase = require('../../userDatabase');
 const { urlRoutes } = require('../../constants');
-const { loginRoute, userRoute, indexRoute, signupRoute, me } = urlRoutes;
+const { loginRoute, userRoute, indexRoute, signupRoute, me, loginErrorRoute } = urlRoutes;
 
 // Login
 router.get(loginRoute, (req, res) => {
     res.render('login', { currentRoute: loginRoute, title: 'Логин', user: req.user });
 });
 
+router.get(loginErrorRoute, (req, res) => {
+    res.render('loginError', { currentRoute: loginErrorRoute, title: 'Ошибка!', user: req.user });
+});
+
 router.post(loginRoute,
-    passport.authenticate('local', { failureRedirect: userRoute + loginRoute }),
+    passport.authenticate('local', { failureRedirect: userRoute + loginErrorRoute }),
     (req, res) => {
         res.redirect(indexRoute);
     }

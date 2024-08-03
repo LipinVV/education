@@ -154,7 +154,8 @@ label {
 
 input[type="text"],
 input[type="file"],
-.password-input {
+input[type="password"],
+input[type="email"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
@@ -224,13 +225,18 @@ button:hover,
     display: none;
 }
 
-.login-box {
+.login-box,
+.signup-box {
     margin-top: 80px;
     width: 500px;
 }
 
-.login-box .username,
-.login-box .password,
-.login-box .login-button {
+.logout {
+    color: red;
+}
 
+.profile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
