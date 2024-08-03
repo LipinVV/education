@@ -1,14 +1,16 @@
-<section>
-    <form action="/user/login" method="post">
-        <div>
+<%- include('./layouts/header') %>
+
+<section class="create login-box">
+    <form method="post">
+        <div class="username">
             <label>Логин:</label>
-            <input type="text" name="username" /><br />
+            <input class="login-input" type="text" name="username" /><br />
         </div>
-        <div>
+        <div class="password">
             <label>Пароль:</label>
-            <input type="password" name="password" />
+            <input class="password-input" type="password" name="password" />
         </div>
-        <div>
+        <div class="login-button">
             <input type="submit" value="Войти" />
         </div>
     </form>
@@ -17,3 +19,5 @@
 <section>
     <p>Нет аккаута? <a href="/user/signup">Зарегистрируйтесь</a></p>
 </section>
+
+<%- include('./layouts/footer') %>

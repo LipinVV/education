@@ -13,10 +13,9 @@
 
 <body>
 <header>
-    Добро пожаловать<% if (user) { %>, <a href="/user/me"><%= user.username %></a> ! <% } %>
-    <% if (!user) { %>!<% } %>
+    Добро пожаловать<% if (user) { %>, <a href="/user/me"><%= user.username %></a> ! <% } %><% if (!user) { %>!<% } %>
 
-    <% if (!user) { %>
+    <% if (!user && currentRoute === '/') { %>
         <p>Пожалуйста, <a href="/user/login"> авторизуйтесь </a></p>
     <% } %>
 </header>

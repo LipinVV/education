@@ -153,7 +153,8 @@ label {
 }
 
 input[type="text"],
-input[type="file"] {
+input[type="file"],
+.password-input {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
@@ -161,7 +162,8 @@ input[type="file"] {
     border-radius: 4px;
 }
 
-button {
+button,
+.login-button input {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -170,7 +172,8 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+button:hover,
+.login-button input:hover {
     background-color: #0056b3;
 }
 
@@ -219,4 +222,15 @@ button:hover {
 
 .file-upload input[type="file"] {
     display: none;
+}
+
+.login-box {
+    margin-top: 80px;
+    width: 500px;
+}
+
+.login-box .username,
+.login-box .password,
+.login-box .login-button {
+
 }

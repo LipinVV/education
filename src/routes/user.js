@@ -3,11 +3,11 @@ const router = express.Router();
 const passport = require('passport');
 const userDatabase = require('../../userDatabase');
 const { urlRoutes } = require('../../constants');
-const { loginRoute, userRoute, indexRoute, signupRoute } = urlRoutes;
+const { loginRoute, userRoute, indexRoute, signupRoute, me } = urlRoutes;
 
-// логин
+// Login
 router.get(loginRoute, (req, res) => {
-    res.render('login');
+    res.render('login', { currentRoute: loginRoute, title: 'Логин', user: req.user });
 });
 
 router.post(loginRoute,
@@ -26,7 +26,7 @@ router.get('/logout', (req, res, next) => {
     });
 });
 
-router.get('/me',
+router.get(me,
     (req, res, next) => {
         if (!req.isAuthenticated()) {
             return res.redirect(userRoute + loginRoute);
@@ -34,13 +34,13 @@ router.get('/me',
         next();
     },
     (req, res) => {
-        res.render('profile', { user: req.user });
+        res.render('profile', { user: req.user, currentRoute: me, title: 'Профиль', user: req.user });
     }
 );
 
 // Signup
 router.get(signupRoute, (req, res) => {
-    res.render('signup');
+    res.render('signup', { currentRoute: signupRoute, title: 'Регистрация', user: req.user });
 });
 
 router.post(signupRoute, (req, res, next) => {
