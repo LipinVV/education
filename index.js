@@ -1,7 +1,6 @@
 const express = require('express');
 const APP = express();
 const mongoConnector = require('./src/service/mongo');
-
 const indexRouter = require('./src/routes/index');
 const userRouter = require('./src/routes/user');
 const bookRouter = require('./src/routes/book');
@@ -19,14 +18,14 @@ const PORT = process.env.PORT || BASIC_PORT;
 
 const verify = (username, password, done) => {
     userDatabase.users.findByUsername(username, (err, user) => {
-        if (err) {return done(err)}
+        if (err) { return done(err) }
         if (!user) { return done(null, false) }
 
-        if( !userDatabase.users.verifyPassword(user, password)) {
-            return done(null, false)
+        if(!userDatabase.users.verifyPassword(user, password)) {
+            return done(null, false);
         }
 
-        return done(null, user)
+        return done(null, user);
     })
 };
 
@@ -44,7 +43,7 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser( (id, cb) => {
     userDatabase.users.findById(id,  (err, user) => {
         if (err) { return cb(err) }
-        cb(null, user)
+        cb(null, user);
     });
 });
 
@@ -70,5 +69,5 @@ APP.use(userRoute, userRouter); // обобщение для пользоват�
 mongoConnector();
 
 APP.listen(PORT, () => {
-    console.log(`Server has started to work on: ${PORT}`)
+    console.log(`Server has started to work on: ${PORT}`);
 });

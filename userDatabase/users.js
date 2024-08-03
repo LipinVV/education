@@ -15,6 +15,8 @@ const records = [
     },
 ]
 
+exports.allUsers = records;
+
 exports.findById = function (id, cb) {
     process.nextTick(function () {
         const idx = id - 1;
@@ -42,3 +44,10 @@ exports.findByUsername = function (username, cb) {
 exports.verifyPassword = (user, password) => {
     return user.password === password;
 }
+
+exports.addUser = function (user, cb) {
+    process.nextTick(function () {
+        records.push(user);
+        cb(null, user);
+    });
+};

@@ -11,6 +11,7 @@ const urlRoutes = {
      loginRoute: '/login',
      allBooksRoute: '/books',
      userRoute: '/user',
+    signupRoute: '/signup'
 }
 
 const constants = {
