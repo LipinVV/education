@@ -7,7 +7,7 @@ const initWebsocket = async (io) => {
         });
 
         socket.on('chat message', (msg) => {
-            io.emit('chat message', msg);
+            io.emit('chat message', { id: socket.id, msg: msg });
         });
     });
 };
