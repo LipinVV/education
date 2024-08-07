@@ -10,6 +10,9 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const userDatabase = require('./userDatabase');
+const http = require('http');
+const socketIo = require('socket.io');
+const websocketConnector = require('./src/service/websocket');
 
 const { urlRoutes } = require('./constants');
 const { allBooksRoute, indexRoute, userRoute } = urlRoutes;
@@ -66,7 +69,11 @@ APP.use(indexRoute, indexRouter); // основной
 APP.use(allBooksRoute, bookRouter); // обобщение для работы с книгами
 APP.use(userRoute, userRouter); // обобщение для пользователя
 
+const server = http.createServer(APP);
+const io = socketIo(server);
+
 mongoConnector();
+websocketConnector(io);
 
 APP.listen(PORT, () => {
     console.log(`Server has started to work on: ${PORT}`);
