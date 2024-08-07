@@ -1,6 +1,6 @@
 const initWebsocket = async (io) => {
     io.on('connection', (socket) => {
-        console.log('a user connected');
+        console.log(`A user with id: ${socket.id} connected`);
 
         socket.on('disconnect', () => {
             console.log('user disconnected');

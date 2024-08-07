@@ -10,9 +10,10 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const userDatabase = require('./userDatabase');
-const http = require('http');
-const socketIo = require('socket.io');
 const websocketConnector = require('./src/service/websocket');
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+const { join } = require('node:path');
 
 const { urlRoutes } = require('./constants');
 const { allBooksRoute, indexRoute, userRoute } = urlRoutes;
@@ -69,12 +70,16 @@ APP.use(indexRoute, indexRouter); // основной
 APP.use(allBooksRoute, bookRouter); // обобщение для работы с книгами
 APP.use(userRoute, userRouter); // обобщение для пользователя
 
-const server = http.createServer(APP);
-const io = socketIo(server);
+const server = createServer(APP);
+const io = new Server(server);
+
+APP.get('/', (req, res) => {
+    res.sendFile(join(__dirname, 'index.html'));
+});
 
 mongoConnector();
 websocketConnector(io);
 
-APP.listen(PORT, () => {
+server.listen(PORT, () => { // APP заменили на server, так как IO прикрепили, но не запустились https://stackoverflow.com/questions/70501638/client-doesnt-find-socket-io-js-file
     console.log(`Server has started to work on: ${PORT}`);
 });
