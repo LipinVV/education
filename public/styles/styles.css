@@ -240,3 +240,22 @@ button:hover,
     flex-direction: column;
     gap: 20px;
 }
+
+#messages {
+    height: 200px;
+    overflow: auto;
+    width: 500px;
+    background-color: aliceblue;
+}
+
+#message-form {
+    width: 500px;
+}
+
+#comment-section {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    margin: 20px;
+    border-top: 4px solid darkgrey;
+}

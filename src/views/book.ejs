@@ -33,17 +33,17 @@
 </div>
 
 <div id="comment-section">
-    <ul id="messages"></ul>
-    <form id="form" action="">
-        <input id="input" autocomplete="off" /><button>Отправить</button>
+    <ul id="messages" class="scrollable"></ul>
+    <form id="message-form" action="">
+        <input type="text" id="input" autocomplete="off" /><button>Отправить</button>
     </form>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-
     const socket = io();
-    const form = document.getElementById('form');
+    const form = document.getElementById('message-form');
     const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -56,8 +56,8 @@
     socket.on('chat message', function(msg) {
         const item = document.createElement('li');
         item.textContent = 'User with id ' + msg.id + ': ' + msg.msg;
-        document.getElementById('messages').appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight; // Прокрутка вниз при добавлении нового сообщения
     });
 </script>
 
