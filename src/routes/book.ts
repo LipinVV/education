@@ -3,6 +3,8 @@ const axios = require('axios');
 const router = express.Router();
 const { errorMessage } = require('../constants').dictionary;
 const Book = require('../models/Book');
+import { Response } from 'express';
+import { IExtendedRequest } from "../interfaces";
 
 const MAIN = '/';
 const ID = '/:id';
@@ -12,17 +14,17 @@ const BOOKS = '/books';
 const COUNTER_API = process.env.COUNTER_API || 'http://counter:3003/counter';
 
 // Get all books
-router.get(MAIN, async (req, res) => {
+router.get(MAIN, async (req: IExtendedRequest, res: Response) => {
     try {
         const books = await Book.find();
         res.render('books', { books: books, currentRoute: BOOKS, title: 'All Books', user: req.user });
-    } catch (error) {
+    } catch (error: unknown) {
         res.status(500).json(errorMessage);
     }
 });
 
 // Render create book page
-router.get(CREATE, (req, res) => {
+router.get(CREATE, (req: IExtendedRequest, res: Response) => {
     const book = {
         title: '',
         description: '',
@@ -33,7 +35,7 @@ router.get(CREATE, (req, res) => {
 });
 
 // Create a new book
-router.post(CREATE, async (req, res) => {
+router.post(CREATE, async (req: IExtendedRequest, res: Response) => {
     const { title, description, authors, favourite } = req.body;
     try {
         const bookCount = await Book.countDocuments(); // для подсчета количества документов в коллекции, соответствующих определенным критериям
@@ -46,13 +48,13 @@ router.post(CREATE, async (req, res) => {
         });
         await newBook.save(); // нативный метод, который выполняет операцию записи в MongoDB
         res.redirect(BOOKS);
-    } catch (error) {
+    } catch (error: unknown) {
         res.status(500).json(errorMessage);
     }
 });
 
 // Get book by id and increment counter
-router.get(ID, async (req, res) => {
+router.get(ID, async (req: IExtendedRequest, res: Response) => {
     const { id } = req.params;
     try {
         const book = await Book.findOne({ id });
@@ -67,13 +69,13 @@ router.get(ID, async (req, res) => {
         } else {
             res.status(404).json(errorMessage);
         }
-    } catch (error) {
+    } catch (error: unknown) {
         res.status(500).json(errorMessage);
     }
 });
 
 // Render edit book page
-router.get(ID + EDIT, async (req, res) => {
+router.get(ID + EDIT, async (req: IExtendedRequest, res: Response) => {
     const { id } = req.params;
     try {
         const book = await Book.findOne({ id });
@@ -82,13 +84,13 @@ router.get(ID + EDIT, async (req, res) => {
         } else {
             res.status(404).json(errorMessage);
         }
-    } catch (error) {
+    } catch (error: unknown) {
         res.status(500).json(errorMessage);
     }
 });
 
 // Update a book by id
-router.post(ID + EDIT, async (req, res) => {
+router.post(ID + EDIT, async (req: IExtendedRequest, res: Response) => {
     const { title, description, authors, favourite } = req.body;
     const { id } = req.params;
     const isFavourite = favourite !== undefined && favourite.toString() === 'on';
@@ -106,7 +108,7 @@ router.post(ID + EDIT, async (req, res) => {
         } else {
             res.status(404).json(errorMessage);
         }
-    } catch (error) {
+    } catch (error: unknown) {
         res.status(500).json(errorMessage);
     }
 });
