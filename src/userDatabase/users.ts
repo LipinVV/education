@@ -1,4 +1,6 @@
-const records = [
+import { IPassportCallback, IUserRecord } from "../interfaces";
+
+const records: IUserRecord[] = [
     {
         id: 1,
         username: 'user',
@@ -17,7 +19,7 @@ const records = [
 
 exports.allUsers = records;
 
-exports.findById = function (id, cb) {
+exports.findById = function (id: number, cb: IPassportCallback) {
     process.nextTick(function () {
         const idx = id - 1;
         if (records[idx]) {
@@ -28,7 +30,7 @@ exports.findById = function (id, cb) {
     })
 }
 
-exports.findByUsername = function (username, cb) {
+exports.findByUsername = function (username: string, cb: IPassportCallback) {
     process.nextTick(function () {
         let i = 0, len = records.length;
         for (; i < len; i++) {
@@ -41,11 +43,11 @@ exports.findByUsername = function (username, cb) {
     })
 }
 
-exports.verifyPassword = (user, password) => {
+exports.verifyPassword = (user: IUserRecord, password: string) => {
     return user.password === password;
 }
 
-exports.addUser = function (user, cb) {
+exports.addUser = function (user: IUserRecord, cb: IPassportCallback) {
     process.nextTick(function () {
         records.push(user);
         cb(null, user);

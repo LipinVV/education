@@ -1,37 +1,37 @@
 import { Server as SocketIOServer } from 'socket.io';
 
 interface IBook {
-    id: string;
-    title: string;
-    description: string;
-    authors: string;
-    favorite: boolean;
-    fileCover: string;
-    fileName: string;
-    fileBook: string;
+    id: string
+    title: string
+    description: string
+    authors: string
+    favorite: boolean
+    fileCover: string
+    fileName: string
+    fileBook: string
 }
 
 interface IWebsocketConnector {
-    (io: SocketIOServer): void;
+    (io: SocketIOServer): void
 }
 
 interface IUser {
-    id: string;
-    username: string;
-    password: string;
+    id: number
+    username: string
+    password: string
 }
 
 type UserEmail = {
-    value: string,
+    value: string
 }
 
-interface IUserRecord extends IUser{
-    displayName: string,
+interface IUserRecord extends IUser {
+    displayName: string
     emails: UserEmail[]
 }
 
 type ServerError = Error | null
-type IPassportCallback = (err?: ServerError, user?: IUser | string) => void
+type IPassportCallback = (err?: ServerError, user?: IUser | number) => void
 type IPassportDone = (err?: ServerError, status?: IUser | boolean) => void
 
 export { IBook, IWebsocketConnector, IUser, IPassportCallback, IUserRecord, IPassportDone }

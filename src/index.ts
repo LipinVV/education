@@ -47,7 +47,7 @@ passport.serializeUser((user: IUser, cb: IPassportCallback) => {
     cb(null, user.id);
 });
 
-passport.deserializeUser( (id: string, cb: IPassportCallback) => {
+passport.deserializeUser((id: number, cb: IPassportCallback) => {
     userDatabase.users.findById(id,  (err: Error, user: IUser) => {
         if (err) { return cb(err) }
         cb(null, user);
