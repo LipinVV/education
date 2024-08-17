@@ -1,0 +1,64 @@
+<%- include('./layouts/header') %>
+<%- include('./menu') %>
+
+<div class="book-wrapper">
+    <div class="book">
+        <h1><%= book.title %></h1>
+        <p>Описание: <%= book.description %></p>
+        <p>Автор: <%= book.authors %></p>
+        <% if (book.favourite === true) { %>
+            <p>В избранном: да</p>
+        <% } %>
+
+        <% if (book.favourite === false) { %>
+            <p>В избранном: нет</p>
+        <% } %>
+
+        <% if (book.fileCover) { %>
+            <p><%= book.fileCover %></p>
+        <% } %>
+
+        <% if (viewData.inc && viewData.inc > 0) { %>
+            <p>Количество просмотров: <%= viewData.inc %></p>
+        <% } %>
+
+        <% if (!viewData.inc || viewData.inc === 0) { %>
+            <p>Количество просмотров: 0</p>
+        <% } %>
+
+        <a class="edit" href="/books/<%= book.id %>/edit">Редактировать</a>
+    </div>
+
+    <a class="return" href="javascript:history.back()">Вернуться</a>
+</div>
+
+<div id="comment-section">
+    <ul id="messages" class="scrollable"></ul>
+    <form id="message-form" action="">
+        <input type="text" id="input" autocomplete="off" /><button>Отправить</button>
+    </form>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const form = document.getElementById('message-form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value) {
+            socket.emit('chat message', input.value);
+            input.value = '';
+        }
+    });
+
+    socket.on('chat message', function(msg) {
+        const item = document.createElement('li');
+        item.textContent = 'User with id ' + msg.id + ': ' + msg.msg;
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight; // Прокрутка вниз при добавлении нового сообщения
+    });
+</script>
+
+<%- include('./layouts/footer') %>

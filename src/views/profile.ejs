@@ -1,0 +1,20 @@
+<%- include('./layouts/header') %>
+
+<section>
+    <h3>Ваши данные: </h3>
+    <p>
+        <b>ID:</b>         <%= user.id %><br />
+        <b>Username:</b>   <%= user.username %><br />
+        <b>Name:</b>       <%= user.displayName %><br />
+        <% if (user.emails) { %>
+            <b>Email:</b>  <%= user.emails[0].value %><br />
+        <% } %>
+    </p>
+
+    <div class="profile-links">
+        <a class="return" href="javascript:history.back()">Вернуться</a>
+        <a class="logout" href="/user/logout">Выйти</a>
+    </div>
+</section>
+
+<%- include('./layouts/footer') %>

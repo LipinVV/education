@@ -1,0 +1,13 @@
+{
+  "name": "counter-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -L index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "redis": "^4.6.15"
+  }
+}

@@ -1,0 +1,22 @@
+<%- include('./layouts/header') %>
+
+<section class="signup-box create">
+    <h1>Регистрация</h1>
+    <form method="post">
+        <div>
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</section>
+
+<%- include('./layouts/footer') %>

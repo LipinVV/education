@@ -3,18 +3,29 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc --project ./tsconfig.json --watch",
+    "build": "tsc --project ./tsconfig.json && npm run copy-assets",
+    "copy-assets": "cp -r src/views dist/views && cp -r src/public dist/public",
+    "start": "npm run build && nodemon dist/index.js",
+    "watch": "nodemon dist/index.js",
     "eslint": "eslint --cache src",
     "eslint:dump": "eslint --print-config eslint.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "type": "module",
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@eslint/js": "^9.9.0",
+    "axios": "^1.7.2",
     "date-fns": "^3.6.0",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.5.2",
+    "multer": "^1.4.5-lts.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "uuid": "^10.0.0",
     "yargs": "^17.7.2"
   },
@@ -24,7 +35,9 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^8.0.1",
+    "concurrently": "^8.2.2",
     "eslint": "^9.9.0",
+    "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }

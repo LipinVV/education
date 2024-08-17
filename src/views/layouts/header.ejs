@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <% if (currentRoute === '/') { %> Главная страница <% } %>
+        <% if (currentRoute !== '/') { %>
+                <%= title %>
+        <% } %>
+    </title>
+    <link rel="stylesheet" href="/../styles/styles.css">
+</head>
+
+<body>
+<header>
+    <% if (currentRoute !== '/me' && currentRoute !== '/loginErrorRoute') { %>
+        Добро пожаловать<% if (user) { %>, <a href="/user/me"><%= user.username %></a> ! <% } %><% if (!user) { %>!<% } %>
+    <% } %>
+
+    <% if (!user && currentRoute === '/') { %>
+        <p>Пожалуйста, <a href="/user/login"> авторизуйтесь </a></p>
+    <% } %>
+</header>

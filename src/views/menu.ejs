@@ -1,0 +1,17 @@
+<nav class="">
+    <h1 class="">Меню</h1>
+    <section class="" id="">
+        <ul class="">
+            <li class="">
+                <a class="" href="/">Главная <% if (currentRoute === '/') { %>
+                        <span class="current">(вы здесь)</span>
+                    <% } %></a>
+            </li>
+            <li class="">
+                <a class="" href="/books">Книги<% if (currentRoute === '/books') { %>
+                        <span class="current">(вы здесь)</span>
+                    <% } %></a>
+            </li>
+        </ul>
+    </section>
+</nav>

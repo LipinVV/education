@@ -1,0 +1,23 @@
+<%- include('./layouts/header') %>
+
+<section class="login-box create">
+    <form method="post">
+        <div class="username">
+            <label>Логин:</label>
+            <input class="login-input" type="text" name="username" /><br />
+        </div>
+        <div class="password">
+            <label>Пароль:</label>
+            <input class="password-input" type="password" name="password" />
+        </div>
+        <div class="login-button">
+            <input type="submit" value="Войти" />
+        </div>
+    </form>
+</section>
+
+<section>
+    <p>Нет аккаута? <a href="/user/signup">Зарегистрируйтесь</a></p>
+</section>
+
+<%- include('./layouts/footer') %>
