@@ -33,5 +33,14 @@ interface IUserRecord extends IUser {
 type ServerError = Error | null
 type IPassportCallback = (err?: ServerError, user?: IUser | number) => void
 type IPassportDone = (err?: ServerError, status?: IUser | boolean) => void
+type DiskStorageCallback = (error: Error | null, info: string) => void
 
-export { IBook, IWebsocketConnector, IUser, IPassportCallback, IUserRecord, IPassportDone }
+export {
+    IBook,
+    IWebsocketConnector,
+    IUser,
+    IPassportCallback,
+    IUserRecord,
+    IPassportDone,
+    DiskStorageCallback
+}

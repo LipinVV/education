@@ -1,12 +1,15 @@
 const multer = require('multer');
 const { v4: uuid } = require('uuid');
 const uploadDirectory = 'upload';
+import { StorageEngine } from 'multer';
+import { Request } from 'express';
+import { DiskStorageCallback } from "../interfaces";
 
-const storage = multer.diskStorage({
-    destination(req, file, cb) {
+const storage: StorageEngine = multer.diskStorage({
+    destination(req: Request, file: Express.Multer.File, cb: DiskStorageCallback) {
         cb(null, uploadDirectory);
     },
-    filename(req, file, cb) {
+    filename(req: Request, file: Express.Multer.File, cb: DiskStorageCallback) {
         cb(null, `${uuid()}-${file.originalname}`);
     }
 });
