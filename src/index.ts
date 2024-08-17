@@ -15,13 +15,16 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const { join } = require('node:path');
 
+import { Request, Response } from 'express';
+import { IPassportCallback, IPassportDone, IUser, IUserRecord } from "./interfaces";
+
 const { urlRoutes } = require('./constants');
 const { allBooksRoute, indexRoute, userRoute } = urlRoutes;
 const BASIC_PORT = 3000;
 const PORT = process.env.PORT || BASIC_PORT;
 
-const verify = (username, password, done) => {
-    userDatabase.users.findByUsername(username, (err, user) => {
+const verify = (username: string, password: string, done: IPassportDone) => {
+    userDatabase.users.findByUsername(username, (err: Error, user: IUserRecord) => {
         if (err) { return done(err) }
         if (!user) { return done(null, false) }
 
@@ -40,12 +43,12 @@ const options = {
 
 passport.use('local', new LocalStrategy(options, verify));
 
-passport.serializeUser((user, cb) => {
+passport.serializeUser((user: IUser, cb: IPassportCallback) => {
     cb(null, user.id);
 });
 
-passport.deserializeUser( (id, cb) => {
-    userDatabase.users.findById(id,  (err, user) => {
+passport.deserializeUser( (id: string, cb: IPassportCallback) => {
+    userDatabase.users.findById(id,  (err: Error, user: IUser) => {
         if (err) { return cb(err) }
         cb(null, user);
     });
@@ -73,7 +76,7 @@ APP.use(userRoute, userRouter); // обобщение для пользоват�
 const server = createServer(APP);
 const io = new Server(server);
 
-APP.get('/', (req, res) => {
+APP.get('/', (req: Request, res: Response) => {
     res.sendFile(join(__dirname, 'index.html'));
 });
 
