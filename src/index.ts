@@ -64,7 +64,6 @@ APP.use(express.static(path.join(__dirname, 'public')));
 
 // EJS setup
 APP.set('views', path.join(__dirname, '/views'));
-console.log('why', __dirname)
 APP.set('view engine', 'ejs');
 
 APP.use(indexRoute, indexRouter); // основной
