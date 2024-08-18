@@ -17,7 +17,7 @@
 
     /* Type Checking */
     "strict": true,                                      /* Enable all strict type-checking options. */
-    "noImplicitAny": false,                              /* Enable error reporting for expressions and declarations with an implied 'any' type. */
+    "noImplicitAny": true,                              /* Enable error reporting for expressions and declarations with an implied 'any' type. */
     "strictNullChecks": false,                           /* When type checking, take into account 'null' and 'undefined'. */
 
     /* Completeness */

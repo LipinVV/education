@@ -4,25 +4,27 @@ const passport = require('passport');
 const userDatabase = require('../userDatabase');
 const { urlRoutes } = require('../constants');
 const { loginRoute, userRoute, indexRoute, signupRoute, me, loginErrorRoute } = urlRoutes;
+import { IExtendedRequest, IUserRecord } from "../interfaces";
+import { NextFunction, Response } from 'express';
 
 // Login
-router.get(loginRoute, (req, res) => {
+router.get(loginRoute, (req: IExtendedRequest, res: Response) => {
     res.render('login', { currentRoute: loginRoute, title: 'Логин', user: req.user });
 });
 
-router.get(loginErrorRoute, (req, res) => {
+router.get(loginErrorRoute, (req: IExtendedRequest, res: Response) => {
     res.render('loginError', { currentRoute: loginErrorRoute, title: 'Ошибка!', user: req.user });
 });
 
 router.post(loginRoute,
     passport.authenticate('local', { failureRedirect: userRoute + loginErrorRoute }),
-    (req, res) => {
+    (req: IExtendedRequest, res: Response) => {
         res.redirect(indexRoute);
     }
 );
 
-router.get('/logout', (req, res, next) => {
-    req.logout((err) => {
+router.get('/logout', (req: IExtendedRequest, res: Response, next: NextFunction) => {
+    req.logout((err: unknown) => {
         if (err) {
             return next(err);
         }
@@ -31,25 +33,25 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.get(me,
-    (req, res, next) => {
+    (req: IExtendedRequest, res: Response, next: NextFunction) => {
         if (!req.isAuthenticated()) {
             return res.redirect(userRoute + loginRoute);
         }
         next();
     },
-    (req, res) => {
+    (req: IExtendedRequest, res: Response) => {
         res.render('profile', { user: req.user, currentRoute: me, title: 'Профиль' });
     }
 );
 
 // Signup
-router.get(signupRoute, (req, res) => {
+router.get(signupRoute, (req: IExtendedRequest, res: Response) => {
     res.render('signup', { currentRoute: signupRoute, title: 'Регистрация', user: req.user });
 });
 
-router.post(signupRoute, (req, res, next) => {
+router.post(signupRoute, (req: IExtendedRequest, res: Response, next: NextFunction) => {
     const { username, password, email } = req.body;
-    userDatabase.users.findByUsername(username, (err, user) => {
+    userDatabase.users.findByUsername(username, (err: unknown, user: IUserRecord) => {
         if (err) { return next(err); }
         if (user) {
             return res.redirect(userRoute + signupRoute + '?error=userexists');
@@ -63,7 +65,7 @@ router.post(signupRoute, (req, res, next) => {
             emails: [{ value: email }],
         };
 
-        userDatabase.users.addUser(newUser, (err) => {
+        userDatabase.users.addUser(newUser, (err: unknown) => {
             if (err) {
                 return next(err);
             }

@@ -6,7 +6,7 @@ export class Book implements IBook {
     title: string;
     description: string;
     authors: string;
-    favorite: boolean;
+    favourite: boolean;
     fileCover: string;
     fileName: string;
     fileBook: string;
@@ -15,7 +15,7 @@ export class Book implements IBook {
         title = '',
         description = '',
         authors = '',
-        favorite = false,
+        favourite = false,
         fileCover = '',
         fileName = '',
         fileBook = '',
@@ -25,7 +25,7 @@ export class Book implements IBook {
         this.title = title
         this.description = description
         this.authors = authors
-        this.favorite = favorite
+        this.favourite = favourite
         this.fileCover = fileCover
         this.fileName = fileName
         this.fileBook = fileBook

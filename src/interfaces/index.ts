@@ -6,15 +6,13 @@ interface IBook {
     title: string
     description: string
     authors: string
-    favorite: boolean
+    favourite: boolean | string
     fileCover: string
     fileName: string
     fileBook: string
 }
 
-interface IWebsocketConnector {
-    (io: SocketIOServer): void
-}
+type IBookRequestFields = Pick<IBook, "title" | "description" | "authors" | "favourite">;
 
 interface IUser {
     id: number
@@ -45,7 +43,7 @@ interface IExtendedRequest extends Request {
 
 export {
     IBook,
-    IWebsocketConnector,
+    IBookRequestFields,
     IUser,
     IPassportCallback,
     IUserRecord,

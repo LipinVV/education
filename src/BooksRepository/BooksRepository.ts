@@ -1,6 +1,6 @@
-import { IBook } from "../interfaces/index";
 const Book = require('../models/Book');
 import { injectable } from 'inversify';
+import { IBook, IBookRequestFields } from "../interfaces/index";
 
 @injectable()
 export class BooksRepository {
@@ -12,7 +12,7 @@ export class BooksRepository {
         return await Book.findOne({ id });
     }
 
-    async createBook(params: any): Promise<IBook> {
+    async createBook(params: IBookRequestFields): Promise<IBook> {
         const bookCount = await Book.countDocuments(); // // для подсчета количества документов в коллекции, соответствующих определенным критериям
 
         const { title, description, authors, favourite } = params;
@@ -29,9 +29,9 @@ export class BooksRepository {
     }
 
 
-    async updateBook(id: string, params: any): Promise<IBook> {
+    async updateBook(id: string, params: IBookRequestFields): Promise<IBook> {
         const { title, description, authors, favourite } = params;
-        const isFavourite = params.favourite !== undefined && params.favourite.toString() === 'on';
+        const isFavourite = favourite !== undefined && params.toString() === 'on';
         const book = await Book.findOneAndUpdate(
             { id },
             { title: title, description: description, authors: authors, favourite: isFavourite },
