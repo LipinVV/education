@@ -9,3 +9,7 @@ npx tsc --init
 npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 ```
 
+# To run project:
+```bash
+docker-compose up --build
+```
