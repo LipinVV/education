@@ -3,8 +3,10 @@ const axios = require('axios');
 const router = express.Router();
 const { errorMessage } = require('../constants').dictionary;
 const Book = require('../models/Book');
+import { container } from "../container";
 import { Response } from 'express';
 import { IExtendedRequest } from "../interfaces";
+import { BooksRepository } from "../BooksRepository/BooksRepository";
 
 const MAIN = '/';
 const ID = '/:id';
@@ -16,7 +18,8 @@ const COUNTER_API = process.env.COUNTER_API || 'http://counter:3003/counter';
 // Get all books
 router.get(MAIN, async (req: IExtendedRequest, res: Response) => {
     try {
-        const books = await Book.find();
+        const repo = container.get(BooksRepository);
+        const books = await repo.getBooks();
         res.render('books', { books: books, currentRoute: BOOKS, title: 'All Books', user: req.user });
     } catch (error: unknown) {
         res.status(500).json(errorMessage);
@@ -38,15 +41,9 @@ router.get(CREATE, (req: IExtendedRequest, res: Response) => {
 router.post(CREATE, async (req: IExtendedRequest, res: Response) => {
     const { title, description, authors, favourite } = req.body;
     try {
-        const bookCount = await Book.countDocuments(); // для подсчета количества документов в коллекции, соответствующих определенным критериям
-        const newBook = new Book({
-            title,
-            description,
-            authors,
-            favourite: favourite === 'on',
-            id: (bookCount + 1).toString(),
-        });
-        await newBook.save(); // нативный метод, который выполняет операцию записи в MongoDB
+        const repo = container.get(BooksRepository);
+        await repo.createBook({ title, description, authors, favourite });
+
         res.redirect(BOOKS);
     } catch (error: unknown) {
         res.status(500).json(errorMessage);
@@ -57,7 +54,8 @@ router.post(CREATE, async (req: IExtendedRequest, res: Response) => {
 router.get(ID, async (req: IExtendedRequest, res: Response) => {
     const { id } = req.params;
     try {
-        const book = await Book.findOne({ id });
+        const repo = container.get(BooksRepository);
+        const book = await repo.getBook(id);
         if (book) {
             try {
                 const request = await axios.post(`${COUNTER_API}/${id}/incr`);
@@ -78,7 +76,8 @@ router.get(ID, async (req: IExtendedRequest, res: Response) => {
 router.get(ID + EDIT, async (req: IExtendedRequest, res: Response) => {
     const { id } = req.params;
     try {
-        const book = await Book.findOne({ id });
+        const repo = container.get(BooksRepository);
+        const book = await repo.getBook(id);
         if (book) {
             res.render('update', { book: book, currentRoute: EDIT, title: book.title, user: req.user });
         } else {
@@ -93,15 +92,10 @@ router.get(ID + EDIT, async (req: IExtendedRequest, res: Response) => {
 router.post(ID + EDIT, async (req: IExtendedRequest, res: Response) => {
     const { title, description, authors, favourite } = req.body;
     const { id } = req.params;
-    const isFavourite = favourite !== undefined && favourite.toString() === 'on';
 
     try {
-        const book = await Book.findOneAndUpdate({ id }, {
-            title,
-            description,
-            authors,
-            favourite: isFavourite
-        }, { new: true }); // без этой опции по умолчанию метод возвращает документ до обновления
+        const repo = container.get(BooksRepository);
+        const book = await repo.updateBook(id, { title, description, authors, favourite });
 
         if (book) {
             res.redirect(`${BOOKS}/${id}`);
